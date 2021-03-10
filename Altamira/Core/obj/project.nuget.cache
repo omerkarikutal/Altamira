@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "jf4fuv5QZusjx50kbJCYNV+REmRqH5FbGn21TzdqmDepps/rC/rf90OY83hSM8hwOkrLotSTuaYeG6MH5FGO1Q==",
+  "dgSpecHash": "ayQnD9JSKz8pywCIMYz8/monCQihLSPGLblvO4aIbRfMlbAsJSzf0BPI8APoxn8cov0jhI09Ox3Npl1CgYnxBw==",
   "success": true,
   "projectFilePath": "C:\\Workspace\\Altamira\\Altamira\\Altamira\\Core\\Core.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\karik\\.nuget\\packages\\mongodb.bson\\2.12.0\\mongodb.bson.2.12.0.nupkg.sha512",
+    "C:\\Users\\karik\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

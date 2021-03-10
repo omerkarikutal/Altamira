@@ -1,3 +1,9 @@
+using AutoMapper;
+using Business.Services;
+using Core.Business;
+using Core.DataAccess;
+using Core.Settings.MongoDb;
+using DataAccess.Repositories.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,10 +12,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Swashbuckle.Swagger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Api.Helper;
+using Api.Helper.Extensions;
 
 namespace Api
 {
@@ -26,6 +40,23 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(ValidateModel));
+            });
+            services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
+
+            services.AddSingleton<IDatabaseSettings>(s =>
+            s.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+
+            var audience = Configuration.GetSection("Audience");
+
+            services.AddJwtConfigToServices(audience["Secret"]);
+            services.AddMapperConfigToServices();
+            services.AddDIConfigToServices();
+            services.AddSwaggerConfigToServices();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,10 +67,14 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(_ => _.SwaggerEndpoint("/swagger/users/swagger.json", "User Api"));
+
+
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

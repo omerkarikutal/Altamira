@@ -1,0 +1,9 @@
+C:\Workspace\Altamira\Altamira\Altamira\Core\bin\Debug\netcoreapp3.1\Core.deps.json
+C:\Workspace\Altamira\Altamira\Altamira\Core\bin\Debug\netcoreapp3.1\Core.dll
+C:\Workspace\Altamira\Altamira\Altamira\Core\bin\Debug\netcoreapp3.1\Core.pdb
+C:\Workspace\Altamira\Altamira\Altamira\Core\obj\Debug\netcoreapp3.1\Core.csprojAssemblyReference.cache
+C:\Workspace\Altamira\Altamira\Altamira\Core\obj\Debug\netcoreapp3.1\Core.AssemblyInfoInputs.cache
+C:\Workspace\Altamira\Altamira\Altamira\Core\obj\Debug\netcoreapp3.1\Core.AssemblyInfo.cs
+C:\Workspace\Altamira\Altamira\Altamira\Core\obj\Debug\netcoreapp3.1\Core.csproj.CoreCompileInputs.cache
+C:\Workspace\Altamira\Altamira\Altamira\Core\obj\Debug\netcoreapp3.1\Core.dll
+C:\Workspace\Altamira\Altamira\Altamira\Core\obj\Debug\netcoreapp3.1\Core.pdb

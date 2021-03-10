@@ -1,0 +1,12 @@
+C:\Workspace\Altamira\Altamira\Altamira\Business\bin\Debug\netcoreapp3.1\Core.dll
+C:\Workspace\Altamira\Altamira\Altamira\Business\obj\Debug\netcoreapp3.1\Business.csprojAssemblyReference.cache
+C:\Workspace\Altamira\Altamira\Altamira\Business\obj\Debug\netcoreapp3.1\Business.AssemblyInfoInputs.cache
+C:\Workspace\Altamira\Altamira\Altamira\Business\obj\Debug\netcoreapp3.1\Business.AssemblyInfo.cs
+C:\Workspace\Altamira\Altamira\Altamira\Business\bin\Debug\netcoreapp3.1\Business.deps.json
+C:\Workspace\Altamira\Altamira\Altamira\Business\bin\Debug\netcoreapp3.1\Business.dll
+C:\Workspace\Altamira\Altamira\Altamira\Business\bin\Debug\netcoreapp3.1\Business.pdb
+C:\Workspace\Altamira\Altamira\Altamira\Business\bin\Debug\netcoreapp3.1\Core.pdb
+C:\Workspace\Altamira\Altamira\Altamira\Business\obj\Debug\netcoreapp3.1\Business.csproj.CoreCompileInputs.cache
+C:\Workspace\Altamira\Altamira\Altamira\Business\obj\Debug\netcoreapp3.1\Business.csproj.CopyComplete
+C:\Workspace\Altamira\Altamira\Altamira\Business\obj\Debug\netcoreapp3.1\Business.dll
+C:\Workspace\Altamira\Altamira\Altamira\Business\obj\Debug\netcoreapp3.1\Business.pdb
