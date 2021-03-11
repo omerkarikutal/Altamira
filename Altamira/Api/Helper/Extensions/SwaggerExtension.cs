@@ -11,11 +11,40 @@ namespace Api.Helper.Extensions
     {
         public static void AddSwaggerConfigToServices(this IServiceCollection services)
         {
-            services.AddSwaggerGen(_ => _.SwaggerDoc("users", new OpenApiInfo
+
+            services.AddSwaggerGen(c =>
             {
-                Title = "Users",
-                Version = "v1"
-            }));
+                c.SwaggerDoc("users", new OpenApiInfo { Title = "Users", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
+            });
+
+
+            //services.AddSwaggerGen(_ => _.SwaggerDoc("users", new OpenApiInfo
+            //{
+            //    Title = "Users",
+            //    Version = "v1"
+            //}));
         }
     }
 }

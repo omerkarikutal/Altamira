@@ -51,13 +51,13 @@ namespace Business.Services
                 new Claim(JwtRegisteredClaimNames.Iat,now.ToUniversalTime().ToString(),ClaimValueTypes.Integer64)
             };
 
-            string iss = "AltamiraJwtTokenSecretKey";//todo
+            string secret = "AltamiraJwtTokenSecretKey";//todo
 
-            var signinKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(iss));
+            var signinKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
 
             var jwt = new JwtSecurityToken
             (
-                issuer: iss,
+                issuer: "omerkarikutal",
                 claims: claims,
                 expires: DateTime.UtcNow.AddDays(1),
                 signingCredentials: new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256)
