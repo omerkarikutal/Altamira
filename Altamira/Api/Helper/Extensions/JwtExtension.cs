@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -11,9 +12,12 @@ namespace Api.Helper.Extensions
 {
     public static class JwtExtension
     {
-        public static void AddJwtConfigToServices(this IServiceCollection services, string secret)
+        public static void AddJwtConfigToServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var signinKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
+
+            var audience = configuration.GetSection("Audience");
+
+            var signinKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(audience["Secret"]));
 
             services.AddAuthentication(x =>
             {

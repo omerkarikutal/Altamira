@@ -49,14 +49,11 @@ namespace Api
             services.AddSingleton<IDatabaseSettings>(s =>
             s.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-            var audience = Configuration.GetSection("Audience");
-
-            services.AddJwtConfigToServices(audience["Secret"]);
+            services.AddJwtConfigToServices(Configuration);
             services.AddMapperConfigToServices();
             services.AddDIConfigToServices();
             services.AddSwaggerConfigToServices();
-
-
+            services.AddRedisConfigToServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +67,7 @@ namespace Api
             app.UseSwagger();
             app.UseSwaggerUI(_ => _.SwaggerEndpoint("/swagger/users/swagger.json", "User Api"));
 
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseHttpsRedirection();
 

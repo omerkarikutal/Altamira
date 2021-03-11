@@ -22,29 +22,64 @@ namespace DataAccess.Repositories.EF
         }
         public async Task<T> AddAsync(T entity)
         {
-            await Collection.InsertOneAsync(entity);
-            return entity;
+            try
+            {
+                await Collection.InsertOneAsync(entity);
+                return entity;
+            }
+            catch (Exception)
+            {
+                throw new MongoException("Database Error");//todo
+            }
         }
 
         public async Task DeleteAsync(T entity)
         {
-            await Collection.DeleteOneAsync(s => s.Id == entity.Id);
+            try
+            {
+                await Collection.DeleteOneAsync(s => s.Id == entity.Id);
+            }
+            catch (Exception)
+            {
+                throw new MongoException("Database Error");//todo
+            }
         }
 
         public async Task<List<T>> Get()
         {
-            return await Collection.Find(T => true).ToListAsync();
+            try
+            {
+                return await Collection.Find(T => true).ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw new MongoException("Database Error");//todo
+            }
         }
 
         public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {
-            return await Collection.Find(predicate).FirstOrDefaultAsync();
+            try
+            {
+                return await Collection.Find(predicate).FirstOrDefaultAsync();
+            }
+            catch (Exception)
+            {
+                throw new MongoException("Database Error");//todo
+            }
         }
 
         public async Task<T> UpdateAsync(T entity)
         {
-            await Collection.ReplaceOneAsync(x => x.Id == entity.Id, entity);
-            return entity;
+            try
+            {
+                await Collection.ReplaceOneAsync(x => x.Id == entity.Id, entity);
+                return entity;
+            }
+            catch (Exception)
+            {
+                throw new MongoException("Database Error");//todo
+            }
         }
     }
 }

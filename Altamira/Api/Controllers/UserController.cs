@@ -1,6 +1,7 @@
 ﻿using Api.Helper;
 using Core.Business;
 using Core.Dtos;
+using Core.RedisManager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,10 +29,15 @@ namespace Api.Controllers
             return Ok(result);
         }
         [HttpGet("{id}")]
-        [TypeFilter(typeof(NotFoundAttribute))]
         public async Task<IActionResult> Get(string id)
         {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest(new { ErrorMessage = "Id is required" });
+
             var result = await userService.GetUserById(id);
+            if (result == null)
+                return NotFound();
+
             return Ok(result);
         }
         [HttpPost]
@@ -47,9 +53,11 @@ namespace Api.Controllers
             return Ok(await userService.Update(userPut));
         }
         [HttpDelete("{id}")]
-        [TypeFilter(typeof(NotFoundAttribute))]
         public async Task<IActionResult> Delete(string id)
         {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest(new { ErrorMessage = "Id is required" });
+
             await userService.Delete(id);
             return Ok();
         }

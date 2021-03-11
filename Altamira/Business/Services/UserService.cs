@@ -4,7 +4,9 @@ using Core.Business;
 using Core.DataAccess;
 using Core.Dtos;
 using Core.Entities;
+using Core.RedisManager;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,23 +20,18 @@ namespace Business.Services
     {
         private readonly IUserRepository userRepository;
         private readonly IMapper mapper;
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        private readonly ICacheService cacheService;
+        public UserService(IUserRepository userRepository, IMapper mapper, ICacheService cacheService)
         {
             this.userRepository = userRepository;
             this.mapper = mapper;
+            this.cacheService = cacheService;
         }
         public async Task<UserDto> Add(UserPost model)
         {
-            try
-            {
-                User dbUser = mapper.Map<User>(model);
-                User result = await userRepository.AddAsync(dbUser);
-                return mapper.Map<UserDto>(result);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            User dbUser = mapper.Map<User>(model);
+            User result = await userRepository.AddAsync(dbUser);
+            return mapper.Map<UserDto>(result);
         }
 
         public async Task Delete(string id)
@@ -73,47 +70,50 @@ namespace Business.Services
 
         public async Task<List<UserDto>> GetAllUser()
         {
-            List<User> result = await userRepository.Get();
+            string cacheKey = "Users";
+
+            List<User> result;
+
+            if (cacheService.Get<List<User>>(cacheKey) != null)
+            {
+                result = cacheService.Get<List<User>>(cacheKey);
+            }
+            else
+            {
+                result = await userRepository.Get();
+                cacheService.Set(cacheKey, result, TimeSpan.FromMinutes(5));
+            }
+
             return mapper.Map<List<UserDto>>(result);
         }
 
         public async Task<UserDto> GetUser(UserLogin userLogin)
         {
-            try
-            {
-                User dbUser = await userRepository.GetAsync(s => s.Username == userLogin.Username && s.Password == userLogin.Password);
-                return mapper.Map<UserDto>(dbUser);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            User dbUser = await userRepository.GetAsync(s => s.Username == userLogin.Username && s.Password == userLogin.Password);
+            return mapper.Map<UserDto>(dbUser);
         }
 
         public async Task<UserDto> GetUserById(string id)
         {
-            try
+            string cacheKey = $"User:{id}";
+            User result;
+
+            if (cacheService.Get<User>(cacheKey) != null)
             {
-                User dbUser = await userRepository.GetAsync(s => s.Id == id);
-                return mapper.Map<UserDto>(dbUser);
+                result = cacheService.Get<User>(cacheKey);
             }
-            catch (Exception)
+            else
             {
-                return null;
+                result = await userRepository.GetAsync(s => s.Id == id);
+                cacheService.Set(cacheKey, result, TimeSpan.FromMinutes(5));
             }
+            return mapper.Map<UserDto>(result);
         }
 
         public async Task<UserDto> Update(UserPut model)
         {
-            try
-            {
-                User result = await userRepository.UpdateAsync(mapper.Map<User>(model));
-                return mapper.Map<UserDto>(result);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            User result = await userRepository.UpdateAsync(mapper.Map<User>(model));
+            return mapper.Map<UserDto>(result);
         }
     }
 }
