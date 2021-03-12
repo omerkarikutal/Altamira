@@ -22,64 +22,29 @@ namespace DataAccess.Repositories.EF
         }
         public async Task<T> AddAsync(T entity)
         {
-            try
-            {
-                await Collection.InsertOneAsync(entity);
-                return entity;
-            }
-            catch (Exception)
-            {
-                throw new MongoException("Database Error");//todo
-            }
+            await Collection.InsertOneAsync(entity);
+            return entity;
         }
 
         public async Task DeleteAsync(T entity)
         {
-            try
-            {
-                await Collection.DeleteOneAsync(s => s.Id == entity.Id);
-            }
-            catch (Exception)
-            {
-                throw new MongoException("Database Error");//todo
-            }
+            await Collection.DeleteOneAsync(s => s.Id == entity.Id);
         }
 
         public async Task<List<T>> Get()
         {
-            try
-            {
-                return await Collection.Find(T => true).ToListAsync();
-            }
-            catch (Exception)
-            {
-                throw new MongoException("Database Error");//todo
-            }
+            return await Collection.Find(T => true).ToListAsync();
         }
 
         public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {
-            try
-            {
-                return await Collection.Find(predicate).FirstOrDefaultAsync();
-            }
-            catch (Exception)
-            {
-                throw new MongoException("Database Error");//todo
-            }
+            return await Collection.Find(predicate).FirstOrDefaultAsync();
         }
 
         public async Task<T> UpdateAsync(T entity)
         {
-            try
-            {
-                await Collection.ReplaceOneAsync(x => x.Id == entity.Id, entity);
-                return entity;
-            }
-            catch (Exception)
-            {
-                throw new MongoException("Database Error");//todo
-            }
+            await Collection.ReplaceOneAsync(x => x.Id == entity.Id, entity);
+            return entity;
         }
     }
 }

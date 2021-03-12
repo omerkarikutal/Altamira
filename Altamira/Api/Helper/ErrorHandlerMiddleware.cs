@@ -1,6 +1,7 @@
 ﻿using Core.RedisManager;
 using Microsoft.AspNetCore.Http;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Api.Helper
 {
-    public class ErrorHandlerMiddleware
+    public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public ErrorHandlerMiddleware(RequestDelegate next)
+        public ExceptionHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -23,28 +24,23 @@ namespace Api.Helper
         {
             try
             {
-                await _next(context);
+                await _next.Invoke(context);
             }
-            catch (Exception error)
+            catch (Exception ex)
             {
-                var response = context.Response;
-                response.ContentType = "application/json";
-
-                switch (error)
-                {
-                    case RedisException e:
-                    case MongoException m:
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        break;
-                    default:
-                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        break;
-                }
-
-                var result = JsonSerializer.Serialize(new { ErrorMessage = error?.Message });
-                await response.WriteAsync(result);
+                await HandleExceptionMessageAsync(context, ex).ConfigureAwait(false);
             }
         }
+        private static Task HandleExceptionMessageAsync(HttpContext context, Exception exception)
+        {
+            int statusCode = (int)HttpStatusCode.InternalServerError;
+            var result = JsonConvert.SerializeObject(new
+            {
+                ErrorMessage = exception.Message
+            });
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = statusCode;
+            return context.Response.WriteAsync(result);
+        }
     }
-
 }

@@ -20,8 +20,7 @@ namespace Api.Helper
             {
                 this.userService = userService;
             }
-            public async Task OnActionExecutionAsync(ActionExecutingContext context,
-              ActionExecutionDelegate next)
+            public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
             {
                 if (context.ActionArguments.ContainsKey("id"))
                 {
@@ -29,13 +28,9 @@ namespace Api.Helper
                     var result = await userService.GetUserById(id);
                     if (result == null)
                     {
-                        context.Result = new NotFoundObjectResult(id);
+                        context.Result = new NotFoundObjectResult(new { ErrorMessage = "Record not found" });
                         return;
                     }
-                }
-                else
-                {
-                    context.Result = new BadRequestResult();
                 }
                 await next();
             }

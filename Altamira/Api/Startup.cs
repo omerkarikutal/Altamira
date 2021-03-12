@@ -67,7 +67,7 @@ namespace Api
             app.UseSwagger();
             app.UseSwaggerUI(_ => _.SwaggerEndpoint("/swagger/users/swagger.json", "User Api"));
 
-            app.UseMiddleware<ErrorHandlerMiddleware>();
+            app.UseExceptionHandlerMiddleware();
 
             app.UseHttpsRedirection();
 

@@ -16,38 +16,24 @@ namespace Core.RedisManager
         }
         public T Get<T>(string cacheKey)
         {
-            try
-            {
-                var result = distributedCache.GetString(cacheKey);
-                if (string.IsNullOrEmpty(result))
-                    return default;
+            var result = distributedCache.GetString(cacheKey);
+            if (string.IsNullOrEmpty(result))
+                return default;
 
-                return JsonConvert.DeserializeObject<T>(result);
-            }
-            catch (Exception)
-            {
-                throw new RedisException("Redis Error");//todo
-            }
+            return JsonConvert.DeserializeObject<T>(result);
         }
 
         public void Set(string cacheKey, object model, TimeSpan time)
         {
-            try
-            {
-                if (model == null)
-                    return;
+            if (model == null)
+                return;
 
-                var serialize = JsonConvert.SerializeObject(model);
+            var serialize = JsonConvert.SerializeObject(model);
 
-                distributedCache.Set(cacheKey, Encoding.UTF8.GetBytes(serialize), new DistributedCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = time
-                });
-            }
-            catch (Exception)
+            distributedCache.Set(cacheKey, Encoding.UTF8.GetBytes(serialize), new DistributedCacheEntryOptions
             {
-                throw new RedisException("Redis Error");//todo
-            }
+                AbsoluteExpirationRelativeToNow = time
+            });
         }
     }
 }

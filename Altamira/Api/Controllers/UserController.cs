@@ -25,20 +25,13 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await userService.GetAllUser();
-            return Ok(result);
+            return Ok(await userService.GetAllUser());
         }
         [HttpGet("{id}")]
+        [TypeFilter(typeof(NotFoundAttribute))]
         public async Task<IActionResult> Get(string id)
         {
-            if (string.IsNullOrEmpty(id))
-                return BadRequest(new { ErrorMessage = "Id is required" });
-
-            var result = await userService.GetUserById(id);
-            if (result == null)
-                return NotFound();
-
-            return Ok(result);
+            return Ok(await userService.GetUserById(id));
         }
         [HttpPost]
         [ValidateModel]
@@ -53,11 +46,9 @@ namespace Api.Controllers
             return Ok(await userService.Update(userPut));
         }
         [HttpDelete("{id}")]
+        [TypeFilter(typeof(NotFoundAttribute))]
         public async Task<IActionResult> Delete(string id)
         {
-            if (string.IsNullOrEmpty(id))
-                return BadRequest(new { ErrorMessage = "Id is required" });
-
             await userService.Delete(id);
             return Ok();
         }
