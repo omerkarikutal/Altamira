@@ -1,4 +1,5 @@
 ﻿using Core.Dtos;
+using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,5 +16,6 @@ namespace Core.Business
         Task Delete(string id);
         Task<UserDto> GetUser(UserLogin userLogin);
         string GenerateToken(UserDto result);
+        Task AddRangeAsync(List<User> userDtos);//Seed method olduğu için direk user entity'si kullanıldı.
     }
 }

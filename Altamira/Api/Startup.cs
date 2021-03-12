@@ -44,6 +44,7 @@ namespace Api
             {
                 options.Filters.Add(typeof(ValidateModel));
             });
+            services.AddHostedService<SeedDataService>();
             services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
 
             services.AddSingleton<IDatabaseSettings>(s =>

@@ -41,6 +41,11 @@ namespace Business.Services
             return mapper.Map<UserDto>(result);
         }
 
+        public async Task AddRangeAsync(List<User> users)
+        {
+            await userRepository.AddRangeAsync(users);
+        }
+
         public async Task Delete(string id)
         {
             UserDto userDto = await GetUserById(id);
