@@ -4,6 +4,7 @@ using Core.Business;
 using Core.DataAccess;
 using Core.Dtos;
 using Core.Entities;
+using Core.Hash;
 using Core.RedisManager;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -21,15 +22,21 @@ namespace Business.Services
         private readonly IUserRepository userRepository;
         private readonly IMapper mapper;
         private readonly ICacheService cacheService;
-        public UserService(IUserRepository userRepository, IMapper mapper, ICacheService cacheService)
+        private readonly IHashService hashService;
+        public UserService(IUserRepository userRepository,
+            IMapper mapper,
+            ICacheService cacheService,
+            IHashService hashService)
         {
             this.userRepository = userRepository;
             this.mapper = mapper;
             this.cacheService = cacheService;
+            this.hashService = hashService;
         }
         public async Task<UserDto> Add(UserPost model)
         {
             User dbUser = mapper.Map<User>(model);
+            dbUser.HashPassword = hashService.HashPassword(model.Password);
             User result = await userRepository.AddAsync(dbUser);
             return mapper.Map<UserDto>(result);
         }
@@ -81,7 +88,9 @@ namespace Business.Services
             else
             {
                 result = await userRepository.Get();
-                cacheService.Set(cacheKey, result, TimeSpan.FromMinutes(5));
+
+                if (result.Count > 0)
+                    cacheService.Set(cacheKey, result, TimeSpan.FromMinutes(1));
             }
 
             return mapper.Map<List<UserDto>>(result);
@@ -89,7 +98,10 @@ namespace Business.Services
 
         public async Task<UserDto> GetUser(UserLogin userLogin)
         {
-            User dbUser = await userRepository.GetAsync(s => s.Username == userLogin.Username && s.Password == userLogin.Password);
+            User dbUser = await userRepository.GetAsync(s => s.Username == userLogin.Username);
+
+            if (dbUser == null || !hashService.VerifyPassword(userLogin.Password, dbUser.HashPassword))
+                return null;
             return mapper.Map<UserDto>(dbUser);
         }
 

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "mF0wlAojvNqkiqXI5Av1x6BHsiJy/GbCU+VQbfha24n+tQWhs7mJ8XYhF1tynHiG19FN0unEcHlFApok8NuQPg==",
+  "dgSpecHash": "4ER7hx9aEh7s3DbJoUyqYZKA7cVSEp9B4g2dFeM2xZuCV/QVoa7hKmx95vUdwFRnWyhumZ0UpnGCP7Zh+imXEQ==",
   "success": true,
   "projectFilePath": "C:\\Workspace\\Altamira\\Altamira\\Altamira\\Core\\Core.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\karik\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\karik\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\5.0.0\\microsoft.extensions.caching.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\karik\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
     "C:\\Users\\karik\\.nuget\\packages\\mongodb.bson\\2.12.0\\mongodb.bson.2.12.0.nupkg.sha512",

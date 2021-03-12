@@ -30,10 +30,11 @@ namespace Core.RedisManager
 
             var serialize = JsonConvert.SerializeObject(model);
 
-            distributedCache.Set(cacheKey, Encoding.UTF8.GetBytes(serialize), new DistributedCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = time
-            });
+            distributedCache.Set(cacheKey, Encoding.UTF8.GetBytes(serialize),
+                new DistributedCacheEntryOptions()
+                {
+                    AbsoluteExpirationRelativeToNow = time
+                });
         }
     }
 }

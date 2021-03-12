@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "2dmFjWGhSN1GL+VeEY9KeGi59l9D0tqhrjmBE9mK1BXs3F10tYJlKcPwYLu6+avws+sIYP7NXI8rZkHKRdfzFA==",
+  "dgSpecHash": "+VMt6d2JfiZAb1PZPX3g19hnAWTTtW4Rg0lfwMHTjKmbEt+OHpzJ+jKyT0u7iQ9Mm4L3FWl9rujzXL6PfSux7A==",
   "success": true,
   "projectFilePath": "C:\\Workspace\\Altamira\\Altamira\\Altamira\\Api\\Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\karik\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
+    "C:\\Users\\karik\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\karik\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",
     "C:\\Users\\karik\\.nuget\\packages\\microsoft.aspnet.webapi.client\\4.0.20710\\microsoft.aspnet.webapi.client.4.0.20710.nupkg.sha512",
     "C:\\Users\\karik\\.nuget\\packages\\microsoft.aspnet.webapi.core\\4.0.20710\\microsoft.aspnet.webapi.core.4.0.20710.nupkg.sha512",

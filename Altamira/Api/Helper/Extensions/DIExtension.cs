@@ -1,6 +1,7 @@
 ﻿using Business.Services;
 using Core.Business;
 using Core.DataAccess;
+using Core.Hash;
 using DataAccess.Repositories.EF;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -16,6 +17,7 @@ namespace Api.Helper.Extensions
         {
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
+            services.AddSingleton<IHashService, HashService>();
         }
     }
 }

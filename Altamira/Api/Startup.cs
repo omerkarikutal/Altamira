@@ -64,6 +64,7 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
+
             app.UseSwagger();
             app.UseSwaggerUI(_ => _.SwaggerEndpoint("/swagger/users/swagger.json", "User Api"));
 
@@ -74,6 +75,7 @@ namespace Api
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

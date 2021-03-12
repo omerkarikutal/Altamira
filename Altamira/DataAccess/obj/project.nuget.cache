@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "kPMuXKOxuIFrsw6QbLkeHoxMGDQUctmKhjxLUfydoP1Oj6UVhu8cLzT2IgDgwgylsJUMll5T+PZSjvQvNQnT/g==",
+  "dgSpecHash": "/b1lktEpsiGUsNv02oy37PgCObBz7OL0ekilI7fDFMoykRTofZ+c64fD1yCVHdcmS8HZkIR34jQgl/sV7b5HBQ==",
   "success": true,
   "projectFilePath": "C:\\Workspace\\Altamira\\Altamira\\Altamira\\DataAccess\\DataAccess.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\karik\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\karik\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",
     "C:\\Users\\karik\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\5.0.0\\microsoft.extensions.caching.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\karik\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",

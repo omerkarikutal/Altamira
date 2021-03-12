@@ -60,7 +60,7 @@ namespace Api.Controllers
         {
             var result = await userService.GetUser(model);
             if (result == null)
-                return NotFound();
+                return NotFound(new { ErrorMessage = "Record not found" });
 
             string token = userService.GenerateToken(result);
             return Ok(token);

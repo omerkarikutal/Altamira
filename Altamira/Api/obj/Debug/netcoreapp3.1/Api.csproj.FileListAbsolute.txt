@@ -67,3 +67,4 @@ C:\Workspace\Altamira\Altamira\Altamira\Api\bin\Debug\netcoreapp3.1\System.Diagn
 C:\Workspace\Altamira\Altamira\Altamira\Api\bin\Debug\netcoreapp3.1\System.Security.Cryptography.ProtectedData.dll
 C:\Workspace\Altamira\Altamira\Altamira\Api\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Diagnostics.PerformanceCounter.dll
 C:\Workspace\Altamira\Altamira\Altamira\Api\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Workspace\Altamira\Altamira\Altamira\Api\bin\Debug\netcoreapp3.1\BCrypt.Net-Next.dll

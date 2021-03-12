@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "1aQDbXTe510jbGy72mDCKJ9x/t84AFmmP1tCgJe+IDoISLXtVAUceo1tFyKic+eQUlk2wSE7XPOgpi1lMBG3nQ==",
+  "dgSpecHash": "pUegfgF91KRX0UsB19WQvQmagkJKobQGVLdfG1FHckMfUaRCn0uqsHJUKtRCeGCaYR8ziNJbywUU3PB0JD2J0Q==",
   "success": true,
   "projectFilePath": "C:\\Workspace\\Altamira\\Altamira\\Altamira\\Business\\Business.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\karik\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
+    "C:\\Users\\karik\\.nuget\\packages\\bcrypt.net-next\\4.0.2\\bcrypt.net-next.4.0.2.nupkg.sha512",
     "C:\\Users\\karik\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\karik\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\5.0.0\\microsoft.extensions.caching.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\karik\\.nuget\\packages\\microsoft.extensions.caching.stackexchangeredis\\5.0.1\\microsoft.extensions.caching.stackexchangeredis.5.0.1.nupkg.sha512",
