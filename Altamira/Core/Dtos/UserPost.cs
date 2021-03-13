@@ -11,5 +11,7 @@ namespace Core.Dtos
         public string Username { get; set; }
         [Required(ErrorMessage = "Şifre Zorunlu")]
         public string Password { get; set; }
+        [Required(ErrorMessage = "Şifre Tekrar Zorunlu")]
+        public string RePassword { get; set; }
     }
 }

@@ -45,16 +45,13 @@ namespace Api
                 options.Filters.Add(typeof(ValidateModel));
             });
             services.AddHostedService<SeedDataService>();
-            services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
-
-            services.AddSingleton<IDatabaseSettings>(s =>
-            s.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
             services.AddJwtConfigToServices(Configuration);
             services.AddMapperConfigToServices();
             services.AddDIConfigToServices();
             services.AddSwaggerConfigToServices();
             services.AddRedisConfigToServices(Configuration);
+            services.AddMongoConfigToServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
