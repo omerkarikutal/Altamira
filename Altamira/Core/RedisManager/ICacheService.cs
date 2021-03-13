@@ -7,9 +7,9 @@ namespace Core.RedisManager
 {
     public interface ICacheService
     {
-        T Get<T>(string cacheKey);
-        void Set(string cacheKey, object model, TimeSpan time);
-        void Remove(string cacheKey);
-        bool Exists(string cacheKey);
+        Task<T> Get<T>(string cacheKey);
+        Task Set(string cacheKey, object model, TimeSpan time);
+        Task Remove(string cacheKey);
+        Task<bool> Exists(string cacheKey);
     }
 }

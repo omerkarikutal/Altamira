@@ -15,36 +15,39 @@ namespace Core.RedisManager
             this.distributedCache = distributedCache;
         }
 
-        public bool Exists(string cacheKey)
+        public async Task<bool> Exists(string cacheKey)
         {
-            if (distributedCache.Get(cacheKey) != null)
+            if (await distributedCache.GetAsync(cacheKey) != null)
                 return true;
             return false;
         }
 
-        public T Get<T>(string cacheKey)
+        public async Task<T> Get<T>(string cacheKey)
         {
-            if (!Exists(cacheKey))
+            bool exists = await Exists(cacheKey);
+            if (!exists)
                 return default;
 
-            var result = distributedCache.GetString(cacheKey);
+            var result = await distributedCache.GetStringAsync(cacheKey);
             return JsonConvert.DeserializeObject<T>(result);
         }
 
-        public void Remove(string cacheKey)
+        public async Task Remove(string cacheKey)
         {
-            if (Exists(cacheKey))
-                distributedCache.Remove(cacheKey);
+            bool exists = await Exists(cacheKey);
+
+            if (exists)
+                await distributedCache.RemoveAsync(cacheKey);
         }
 
-        public void Set(string cacheKey, object model, TimeSpan time)
+        public async Task Set(string cacheKey, object model, TimeSpan time)
         {
             if (model == null)
                 return;
 
             var serialize = JsonConvert.SerializeObject(model);
 
-            distributedCache.Set(cacheKey, Encoding.UTF8.GetBytes(serialize),
+            await distributedCache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(serialize),
                 new DistributedCacheEntryOptions()
                 {
                     AbsoluteExpirationRelativeToNow = time

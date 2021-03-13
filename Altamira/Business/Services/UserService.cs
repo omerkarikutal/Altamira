@@ -38,7 +38,7 @@ namespace Business.Services
             User dbUser = mapper.Map<User>(model);
             dbUser.HashPassword = hashService.HashPassword(model.Password);
             User result = await userRepository.AddAsync(dbUser);
-            cacheService.Remove("Users");
+            await cacheService.Remove(CacheConsts.UserList);
             return mapper.Map<UserDto>(result);
         }
 
@@ -51,25 +51,24 @@ namespace Business.Services
         {
             UserDto userDto = await GetUserById(id);
             await userRepository.DeleteAsync(mapper.Map<User>(userDto));
-            cacheService.Remove("Users");
+            await cacheService.Remove(CacheConsts.UserList);
         }
 
         public async Task<List<UserDto>> GetAllUser()
         {
-            string cacheKey = "Users";
+            string cacheKey = CacheConsts.UserList;
 
             List<User> result;
 
-            if (cacheService.Get<List<User>>(cacheKey) != null)
+            if (await cacheService.Get<List<User>>(cacheKey) != null)
             {
-                result = cacheService.Get<List<User>>(cacheKey);
+                result = await cacheService.Get<List<User>>(cacheKey);
             }
             else
             {
                 result = await userRepository.Get();
-
                 if (result.Count > 0)
-                    cacheService.Set(cacheKey, result, TimeSpan.FromMinutes(1));
+                    await cacheService.Set(cacheKey, result, TimeSpan.FromMinutes(1));
             }
 
             return mapper.Map<List<UserDto>>(result);
@@ -89,7 +88,6 @@ namespace Business.Services
             User result = await userRepository.GetAsync(s => s.Id == id);
             return mapper.Map<UserDto>(result);
         }
-
         public async Task<UserDto> Update(UserPut model)
         {
             User dbUser = await userRepository.GetAsync(s => s.Id == model.Id);
@@ -98,7 +96,7 @@ namespace Business.Services
                 dbUser.HashPassword = hashService.HashPassword(model.Password);
             User result = await userRepository.UpdateAsync(dbUser);
 
-            cacheService.Remove("Users");
+            await cacheService.Remove(CacheConsts.UserList);
             return mapper.Map<UserDto>(result);
         }
         public string GenerateToken(UserDto result)
