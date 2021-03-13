@@ -9,5 +9,7 @@ namespace Core.RedisManager
     {
         T Get<T>(string cacheKey);
         void Set(string cacheKey, object model, TimeSpan time);
+        void Remove(string cacheKey);
+        bool Exists(string cacheKey);
     }
 }

@@ -38,6 +38,7 @@ namespace Business.Services
             User dbUser = mapper.Map<User>(model);
             dbUser.HashPassword = hashService.HashPassword(model.Password);
             User result = await userRepository.AddAsync(dbUser);
+            cacheService.Remove("Users");
             return mapper.Map<UserDto>(result);
         }
 
@@ -50,34 +51,7 @@ namespace Business.Services
         {
             UserDto userDto = await GetUserById(id);
             await userRepository.DeleteAsync(mapper.Map<User>(userDto));
-        }
-
-        public string GenerateToken(UserDto result)
-        {
-            var now = DateTime.UtcNow;
-
-            var claims = new Claim[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub,result.Username),
-                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat,now.ToUniversalTime().ToString(),ClaimValueTypes.Integer64)
-            };
-
-            string secret = "AltamiraJwtTokenSecretKey";//todo
-
-            var signinKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
-
-            var jwt = new JwtSecurityToken
-            (
-                issuer: "omerkarikutal",
-                claims: claims,
-                expires: DateTime.UtcNow.AddDays(1),
-                signingCredentials: new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256)
-            );
-
-            var encodeJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            return encodeJwt;
+            cacheService.Remove("Users");
         }
 
         public async Task<List<UserDto>> GetAllUser()
@@ -112,25 +86,47 @@ namespace Business.Services
 
         public async Task<UserDto> GetUserById(string id)
         {
-            string cacheKey = $"User:{id}";
-            User result;
-
-            if (cacheService.Get<User>(cacheKey) != null)
-            {
-                result = cacheService.Get<User>(cacheKey);
-            }
-            else
-            {
-                result = await userRepository.GetAsync(s => s.Id == id);
-                cacheService.Set(cacheKey, result, TimeSpan.FromMinutes(5));
-            }
+            User result = await userRepository.GetAsync(s => s.Id == id);
             return mapper.Map<UserDto>(result);
         }
 
         public async Task<UserDto> Update(UserPut model)
         {
-            User result = await userRepository.UpdateAsync(mapper.Map<User>(model));
+            User user = mapper.Map<User>(model);
+
+            if (!string.IsNullOrEmpty(model.Password))
+                user.HashPassword = hashService.HashPassword(model.Password);
+            User result = await userRepository.UpdateAsync(user);
+
+            cacheService.Remove("Users");
             return mapper.Map<UserDto>(result);
+        }
+        public string GenerateToken(UserDto result)
+        {
+            var now = DateTime.UtcNow;
+
+            var claims = new Claim[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub,result.Username),
+                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat,now.ToUniversalTime().ToString(),ClaimValueTypes.Integer64)
+            };
+
+            string secret = "AltamiraJwtTokenSecretKey";//todo
+
+            var signinKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
+
+            var jwt = new JwtSecurityToken
+            (
+                issuer: "omerkarikutal",
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(1),
+                signingCredentials: new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256)
+            );
+
+            var encodeJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            return encodeJwt;
         }
     }
 }

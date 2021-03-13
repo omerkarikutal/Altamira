@@ -14,13 +14,27 @@ namespace Core.RedisManager
         {
             this.distributedCache = distributedCache;
         }
+
+        public bool Exists(string cacheKey)
+        {
+            if (distributedCache.Get(cacheKey) != null)
+                return true;
+            return false;
+        }
+
         public T Get<T>(string cacheKey)
         {
-            var result = distributedCache.GetString(cacheKey);
-            if (string.IsNullOrEmpty(result))
+            if (!Exists(cacheKey))
                 return default;
 
+            var result = distributedCache.GetString(cacheKey);
             return JsonConvert.DeserializeObject<T>(result);
+        }
+
+        public void Remove(string cacheKey)
+        {
+            if (Exists(cacheKey))
+                distributedCache.Remove(cacheKey);
         }
 
         public void Set(string cacheKey, object model, TimeSpan time)

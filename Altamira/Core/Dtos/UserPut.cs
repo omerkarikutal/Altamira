@@ -10,7 +10,6 @@ namespace Core.Dtos
         public string Id { get; set; }
         [Required(ErrorMessage = "Kullanıcı Adı Zorunlu")]
         public string Username { get; set; }
-        [Required(ErrorMessage = "Şifre Zorunlu")]
         public string Password { get; set; }
     }
 }
