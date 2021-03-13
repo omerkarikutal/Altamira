@@ -15,7 +15,7 @@ namespace Api.Helper
     {
         private readonly IUserService userService;
         private readonly IHashService hashService;
-        public SeedDataService(IUserService userService,IHashService hashService)
+        public SeedDataService(IUserService userService, IHashService hashService)
         {
             this.userService = userService;
             this.hashService = hashService;
@@ -32,18 +32,27 @@ namespace Api.Helper
 
             userPosts.Add(new User
             {
+                Name = "Bret",
+                Surname = "Bret",
                 Username = "Bret",
-                HashPassword = hashService.HashPassword("Bret")
+                HashPassword = hashService.HashPassword("Bret"),
+                CreateDate = DateTime.Now
             });
             userPosts.Add(new User
             {
+                Name = "Antonette",
+                Surname = "Antonette",
                 Username = "Antonette",
-                HashPassword = hashService.HashPassword("Antonette")
+                HashPassword = hashService.HashPassword("Antonette"),
+                CreateDate = DateTime.Now
             });
             userPosts.Add(new User
             {
+                Name = "Samantha",
+                Surname = "Samantha",
                 Username = "Samantha",
-                HashPassword = hashService.HashPassword("Samantha")
+                HashPassword = hashService.HashPassword("Samantha"),
+                CreateDate = DateTime.Now
             });
             await userService.AddRangeAsync(userPosts);
         }

@@ -36,24 +36,22 @@ namespace Business.Services
         public async Task<UserDto> Add(UserPost model)
         {
             User dbUser = mapper.Map<User>(model);
+            dbUser.CreateDate = DateTime.Now;
             dbUser.HashPassword = hashService.HashPassword(model.Password);
             User result = await userRepository.AddAsync(dbUser);
             await cacheService.Remove(CacheConsts.UserList);
             return mapper.Map<UserDto>(result);
         }
-
         public async Task AddRangeAsync(List<User> users)
         {
             await userRepository.AddRangeAsync(users);
         }
-
         public async Task Delete(string id)
         {
             UserDto userDto = await GetUserById(id);
             await userRepository.DeleteAsync(mapper.Map<User>(userDto));
             await cacheService.Remove(CacheConsts.UserList);
         }
-
         public async Task<List<UserDto>> GetAllUser()
         {
             string cacheKey = CacheConsts.UserList;
@@ -73,7 +71,6 @@ namespace Business.Services
 
             return mapper.Map<List<UserDto>>(result);
         }
-
         public async Task<UserDto> GetUser(UserLogin userLogin)
         {
             User dbUser = await userRepository.GetAsync(s => s.Username == userLogin.Username);
@@ -82,7 +79,6 @@ namespace Business.Services
                 return null;
             return mapper.Map<UserDto>(dbUser);
         }
-
         public async Task<UserDto> GetUserById(string id)
         {
             User result = await userRepository.GetAsync(s => s.Id == id);
@@ -94,6 +90,13 @@ namespace Business.Services
 
             if (!string.IsNullOrEmpty(model.Password))
                 dbUser.HashPassword = hashService.HashPassword(model.Password);
+            if (!string.IsNullOrEmpty(model.Name))
+                dbUser.Name = model.Name;
+            if (!string.IsNullOrEmpty(model.Surname))
+                dbUser.Surname = model.Surname;
+            if (!string.IsNullOrEmpty(model.Username))
+                dbUser.Username = model.Username;
+            dbUser.CreateDate = DateTime.Now;
             User result = await userRepository.UpdateAsync(dbUser);
 
             await cacheService.Remove(CacheConsts.UserList);
