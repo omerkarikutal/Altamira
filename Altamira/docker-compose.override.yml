@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+      userdb:
+        container_name: userdb
+        restart: always
+        volumes:
+            - ${WEBAPP_STORAGE_HOME}/site:/data/db 
+        ports:
+            - "27017:27017"
+      cachedb:
+        container_name: cachedb
+        restart: always
+        ports:
+            - "6379:6379" 
+      api:
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - "DatabaseSettings:ConnectionString=mongodb://userdb:27017"
+          - "RedisSettings:ConnectionString=cachedb:6379"
+        depends_on:
+          - userdb
+          - cachedb
+        volumes:
+          - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+          - ${HOME}/.aspnet/https:/root/.aspnet/https/
+        ports:
+          - "8000:80"

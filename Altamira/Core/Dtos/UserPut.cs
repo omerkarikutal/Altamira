@@ -7,6 +7,7 @@ namespace Core.Dtos
 {
     public class UserPut
     {
+        [Required(ErrorMessage = "Id Zorunlu")]
         public string Id { get; set; }
         [Required(ErrorMessage = "Kullanıcı Adı Zorunlu")]
         public string Username { get; set; }

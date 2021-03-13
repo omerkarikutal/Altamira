@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+    userdb:
+        image: mongo
+    cachedb:
+        image: redis
+    api:
+        image: ${DOCKER_REGISTRY-}api
+        build:
+            context: .
+            dockerfile: Api\Dockerfile

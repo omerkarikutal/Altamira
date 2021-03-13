@@ -92,11 +92,11 @@ namespace Business.Services
 
         public async Task<UserDto> Update(UserPut model)
         {
-            User user = mapper.Map<User>(model);
+            User dbUser = await userRepository.GetAsync(s => s.Id == model.Id);
 
             if (!string.IsNullOrEmpty(model.Password))
-                user.HashPassword = hashService.HashPassword(model.Password);
-            User result = await userRepository.UpdateAsync(user);
+                dbUser.HashPassword = hashService.HashPassword(model.Password);
+            User result = await userRepository.UpdateAsync(dbUser);
 
             cacheService.Remove("Users");
             return mapper.Map<UserDto>(result);
