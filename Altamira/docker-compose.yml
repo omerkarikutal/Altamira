@@ -3,7 +3,7 @@ version: '3.4'
 services:
     userdb:
         image: mongo
-    cachedb:
+    altamiracachedb:
         image: redis
     api:
         image: ${DOCKER_REGISTRY-}api
