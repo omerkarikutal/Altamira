@@ -8,21 +8,14 @@ services:
             - ${WEBAPP_STORAGE_HOME}/site:/data/db 
         ports:
             - "27017:27017"
-      altamiracachedb:
-        container_name: altamiracachedb
-        restart: always
-        ports:
-            - "6379:6379" 
       api:
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
           - "DatabaseSettings:ConnectionString=mongodb://userdb:27017"
-          - "RedisSettings:ConnectionString=altamiracachedb:6379"
         depends_on:
           - userdb
-          - altamiracachedb
         volumes:
           - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
           - ${HOME}/.aspnet/https:/root/.aspnet/https/
         ports:
-          - "5000:80"
+          - "5101:80"
