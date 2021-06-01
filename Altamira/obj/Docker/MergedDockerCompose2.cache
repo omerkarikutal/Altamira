@@ -1,0 +1,38 @@
+services:
+  api:
+    build:
+      context: C:\Workspace\Altamira\Altamira
+      dockerfile: Api\Dockerfile
+    depends_on:
+      cachedb:
+        condition: service_started
+      userdb:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DatabaseSettings:ConnectionString: mongodb://userdb:27017
+      RedisSettings:ConnectionString: cachedb:6379
+    image: api
+    ports:
+    - published: 5000
+      target: 80
+    volumes:
+    - /.aspnet/https:/root/.aspnet/https/:rw
+    - /.microsoft/usersecrets:/root/.microsoft/usersecrets:rw
+  cachedb:
+    container_name: cachedb
+    image: redis
+    ports:
+    - published: 6379
+      target: 6379
+    restart: always
+  userdb:
+    container_name: userdb
+    image: mongo
+    ports:
+    - published: 27017
+      target: 27017
+    restart: always
+    volumes:
+    - /site:/data/db:rw
+version: '3.4'
